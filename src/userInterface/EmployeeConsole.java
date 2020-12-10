@@ -10,26 +10,27 @@ public class EmployeeConsole {
     private EmployeeManager em;
     private Scanner sc;
 
-    public EmployeeConsole (){
+    public EmployeeConsole() {
         this.sc = new Scanner(System.in);
         this.em = new EmployeeManager();
     }
 
-    private int menu(){
+    private int menu() {
         System.out.println("----------Menu---------");
         System.out.println("1: ADD EMPLOYEE");
         System.out.println("2: VIEW EMPLOYEES LIST");
         System.out.println("3: DELETE EMPLOYEE");
         System.out.println("4: EDIT EMPLOYEES VIA ID");
         System.out.println("0: EXIT !!");
+        System.out.println("-------------------------------------");
         int choice = readInt(0, 4);
         return choice;
     }
 
-    public void start(){
-        while(true) {
+    public void start() {
+        while (true) {
             int choice = menu();
-            switch (choice){
+            switch (choice) {
                 case 0:
                     System.exit(0);
                     break;
@@ -42,9 +43,32 @@ public class EmployeeConsole {
                 case 3:
                     removeEmployee();
                     break;
+                case 4:
+                    editEmployee();
+                    break;
                 default:
                     throw new AssertionError();
             }
+        }
+    }
+
+    private void editEmployee() {
+        System.out.println("Enter ID of employee");
+        int id = Integer.parseInt(sc.nextLine());
+        int n = 0;
+        for (int i = 0; i < em.getListOfEmployee().size(); i++) {
+            if (id == em.getListOfEmployee().get(i).getId()) {
+                System.out.println("Change ID to: ");
+                int newId = Integer.parseInt(sc.nextLine());
+                em.getListOfEmployee().get(i).setId(newId);
+                System.out.println("Change name");
+                String newName = sc.nextLine();
+                em.getListOfEmployee().get(i).setName(newName);
+                System.out.println("Change salary");
+                float newSalary = Float.parseFloat(sc.nextLine());
+                em.getListOfEmployee().get(i).setSalary(newSalary);
+            }
+
         }
     }
 
@@ -52,31 +76,32 @@ public class EmployeeConsole {
         System.out.println("Enter ID of employee");
         int id = readInt(0, Integer.MAX_VALUE);
         boolean result = this.em.removeEmployee(id);
-        if(result){
+        if (result) {
             System.out.println("Employee fired!");
         } else {
             System.out.println("Employee not found!");
         }
     }
 
+
     private void showEmployee() {
         System.out.println("-------Employees List-------");
-        System.out.println("ID | NAME | SALARY");
+        System.out.println("ID      |    NAME   |     SALARY    ");
         for (int i = 0; i < this.em.count(); i++) {
             Employee e = this.em.getEmployee(i);
-            System.out.println(e.getId()+"\t"+e.getName()+"\t"+e.getSalary());
+            System.out.println(e.getId() + "\t\t" + e.getName() + "\t\t" + e.getSalary());
         }
     }
 
     private float readFloat(int min, float max) {
         float salary;
-        while (true){
-            try{
+        while (true) {
+            try {
                 salary = Float.parseFloat(sc.nextLine());
-                if(salary >= min && salary <= max){
+                if (salary >= min && salary <= max) {
                     break;
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Invalid value");
             }
         }
@@ -84,14 +109,14 @@ public class EmployeeConsole {
     }
 
     private int readInt(int min, int max) {
-        int choice =0;
-        while(true){
-            try{
+        int choice = 0;
+        while (true) {
+            try {
                 choice = Integer.parseInt(sc.nextLine());
-                if(choice >= min && choice <= max){
+                if (choice >= min && choice <= max) {
                     break;
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

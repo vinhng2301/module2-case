@@ -12,6 +12,10 @@ public class EmployeeManager {
         this.listOfEmployee = new ArrayList<>();
     }
 
+    public List<Employee> getListOfEmployee() {
+        return listOfEmployee;
+    }
+
     public int addEmployee(Employee e){
         this.listOfEmployee.add(e);
         return this.listOfEmployee.size();

@@ -4,6 +4,7 @@ public class Employee {
     private int id;
     private String name;
     private float salary;
+    private Department department;
 
     public Employee(int id, String name, float salary) {
         this.id = id;
@@ -33,5 +34,10 @@ public class Employee {
 
     public void setSalary(float salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return id + "," + name + "," + salary;
     }
 }
