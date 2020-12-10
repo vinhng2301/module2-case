@@ -2,12 +2,13 @@ package userInterface;
 
 import controller.EmployeeManager;
 import entities.Employee;
+import fileservice.IOWriter;
 
 import java.util.Scanner;
 
 public class EmployeeConsole {
 
-    private EmployeeManager em;
+    public static EmployeeManager em;
     private Scanner sc;
 
     public EmployeeConsole() {
@@ -21,9 +22,10 @@ public class EmployeeConsole {
         System.out.println("2: VIEW EMPLOYEES LIST");
         System.out.println("3: DELETE EMPLOYEE");
         System.out.println("4: EDIT EMPLOYEES VIA ID");
+        System.out.println("5: SAVE INTO FILE");
         System.out.println("0: EXIT !!");
         System.out.println("-------------------------------------");
-        int choice = readInt(0, 4);
+        int choice = readInt(0, 5);
         return choice;
     }
 
@@ -45,6 +47,10 @@ public class EmployeeConsole {
                     break;
                 case 4:
                     editEmployee();
+                    break;
+                case 5:
+                    IOWriter ioWriter = new IOWriter();
+                    ioWriter.fileWrite("data.txt");
                     break;
                 default:
                     throw new AssertionError();
@@ -68,7 +74,6 @@ public class EmployeeConsole {
                 float newSalary = Float.parseFloat(sc.nextLine());
                 em.getListOfEmployee().get(i).setSalary(newSalary);
             }
-
         }
     }
 
