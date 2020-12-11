@@ -81,57 +81,6 @@ public class EmployeeConsole {
         }
     }
 
-    private void removeEmployee() {
-        System.out.println("Enter ID of employee");
-        int id = readInt(0, Integer.MAX_VALUE);
-        boolean result = this.em.removeEmployee(id);
-        if (result) {
-            System.out.println("Employee fired!");
-        } else {
-            System.out.println("Employee not found!");
-        }
-    }
-
-
-    private void showEmployee(ArrayList<Employee> employees) {
-        System.out.println("-------Employees List-------");
-        System.out.println("ID      |    NAME   |     SALARY    ");
-        for (int i = 0; i < employees.size(); i++) {
-//            Employee e = this.em.getEmployee(i);
-            System.out.println(employees.get(i).getId() + "\t\t" + employees.get(i).getName() + "\t\t" + employees.get(i).getSalary());
-        }
-    }
-
-    private float readFloat(int min, float max) {
-        float salary;
-        while (true) {
-            try {
-                salary = Float.parseFloat(sc.nextLine());
-                if (salary >= min && salary <= max) {
-                    break;
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid value");
-            }
-        }
-        return salary;
-    }
-
-    private int readInt(int min, int max) {
-        int choice = 0;
-        while (true) {
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-                if (choice >= min && choice <= max) {
-                    break;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return choice;
-    }
-
     private void addEmployee() {
         String path = "data.txt";
         FileWriter fileWriter = null;
@@ -164,5 +113,55 @@ public class EmployeeConsole {
                 }
             }
         }
+    }
+
+    private void removeEmployee() {
+        System.out.println("Enter ID of employee");
+        int id = readInt(0, Integer.MAX_VALUE);
+        boolean result = this.em.removeEmployee(id);
+        if (result) {
+            System.out.println("Employee fired!");
+        } else {
+            System.out.println("Employee not found!");
+        }
+    }
+
+    private void showEmployee(ArrayList<Employee> employees) {
+        System.out.println("-------Employees List-------");
+        System.out.println("ID      |    NAME   |     SALARY    ");
+        for (int i = 0; i < employees.size(); i++) {
+//            Employee e = this.em.getEmployee(i);
+            System.out.println(employees.get(i).getId() + "\t\t\t" + employees.get(i).getName() + "\t\t\t" + employees.get(i).getSalary());
+        }
+    }
+
+    private float readFloat(int min, float max) {
+        float salary;
+        while (true) {
+            try {
+                salary = Float.parseFloat(sc.nextLine());
+                if (salary >= min && salary <= max) {
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid value");
+            }
+        }
+        return salary;
+    }
+
+    private int readInt(int min, int max) {
+        int choice = 0;
+        while (true) {
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+                if (choice >= min && choice <= max) {
+                    break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return choice;
     }
 }
