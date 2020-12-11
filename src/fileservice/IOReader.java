@@ -9,9 +9,12 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class IOReader {
+    public static ArrayList<Employee> arrayList=new ArrayList<>();
     public static ArrayList<Employee> fileRead(String path){
         File file = new File(path);
-        ArrayList<Employee> arrayList = new ArrayList<>();
+        if(arrayList == null) {
+            arrayList = new ArrayList<>();
+        }
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);

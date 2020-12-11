@@ -8,11 +8,13 @@ import fileservice.IOWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EmployeeConsole {
 
+    Employee employee = new Employee();
     public static EmployeeManager em;
     private Scanner sc;
 
@@ -45,13 +47,13 @@ public class EmployeeConsole {
                     addEmployee();
                     break;
                 case 2:
-                    showEmployee(IOReader.fileRead("data.txt"));
+                    showEmployee(IOReader.arrayList);
                     break;
                 case 3:
                     removeEmployee();
                     break;
                 case 4:
-                    editEmployee();
+                    editEmployee("data.txt");
                     break;
                 case 5:
                     IOWriter.fileWrite("data.txt");
@@ -62,69 +64,52 @@ public class EmployeeConsole {
         }
     }
 
-    private void editEmployee() {
+    private void editEmployee(String path) {
         System.out.println("Enter ID of employee");
+        ArrayList<Employee> employees =  IOReader.arrayList;
         int id = Integer.parseInt(sc.nextLine());
-        int n = 0;
-        for (int i = 0; i < em.getListOfEmployee().size(); i++) {
-            if (id == em.getListOfEmployee().get(i).getId()) {
-                System.out.println("Change ID to: ");
+        for (int i = 0; i <employees.size() ; i++) {
+            if (id == employees.get(i).getId()){
+                System.out.println("Enter new ID: ");
                 int newId = Integer.parseInt(sc.nextLine());
-                em.getListOfEmployee().get(i).setId(newId);
-                System.out.println("Change name");
+                employees.get(i).setId(newId);
+                System.out.println("Enter new Name: ");
                 String newName = sc.nextLine();
-                em.getListOfEmployee().get(i).setName(newName);
-                System.out.println("Change salary");
+                employees.get(i).setName(newName);
+                System.out.println("Enter new Salary: ");
                 float newSalary = Float.parseFloat(sc.nextLine());
-                em.getListOfEmployee().get(i).setSalary(newSalary);
+                employees.get(i).setSalary(newSalary);
+                break;
             }
         }
+
     }
 
-    private void addEmployee() {
-        String path = "data.txt";
-        FileWriter fileWriter = null;
-        File file = new File(path);
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            fileWriter = new FileWriter(file, true);
-            System.out.println("Enter Employees ID: ");
-            String id = sc.nextLine();
-            System.out.println("Enter Employees Name: ");
-            String name = sc.nextLine();
-            System.out.println("Enter Employees Salary: ");
-            String salary = sc.nextLine();
-            fileWriter.append(id);
-            fileWriter.append( ",");
-            fileWriter.append(name);
-            fileWriter.append( ",");
-            fileWriter.append(salary);
-            fileWriter.append("\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    private void addEmployee(){
+        System.out.println("Enter Employees ID: ");
+        String id = sc.nextLine();
+        System.out.println("Enter Employees Name: ");
+        String name = sc.nextLine();
+        System.out.println("Enter Employees Salary: ");
+        String salary = sc.nextLine();
+        IOReader.arrayList.add(new Employee(Integer.parseInt(id),name,Float.parseFloat(salary)));
+
     }
 
-    private void removeEmployee() {
+    private void removeEmployee(){
         System.out.println("Enter ID of employee");
-        int id = readInt(0, Integer.MAX_VALUE);
-        boolean result = this.em.removeEmployee(id);
-        if (result) {
-            System.out.println("Employee fired!");
-        } else {
-            System.out.println("Employee not found!");
+        ArrayList<Employee> employees =  IOReader.arrayList;
+        int id = Integer.parseInt(sc.nextLine());
+        int index = 0;
+        for (int i = 0; i <employees.size() ; i++) {
+            if (id == employees.get(i).getId()){
+                index = i;
+                break;
+            }
         }
+        employees.remove(index);
     }
+
 
     private void showEmployee(ArrayList<Employee> employees) {
         System.out.println("-------Employees List-------");

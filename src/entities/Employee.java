@@ -1,10 +1,18 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employee {
     private int id;
     private String name;
     private float salary;
     private Department department;
+     //List<Employee> list = new ArrayList<>();
+
+    public Employee() {
+
+    }
 
     public Employee(int id, String name, float salary) {
         this.id = id;

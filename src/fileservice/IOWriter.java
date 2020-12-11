@@ -17,7 +17,7 @@ public class IOWriter {
 
     public static void fileWrite(String path){
         File file = new File(path);
-        List<Employee> arrayList = IOReader.fileRead(path);
+        List<Employee> arrayList = IOReader.arrayList;
             try {
                 if (!file.exists()) {
                     file.createNewFile();
