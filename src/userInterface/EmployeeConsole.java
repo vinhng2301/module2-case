@@ -2,8 +2,13 @@ package userInterface;
 
 import controller.EmployeeManager;
 import entities.Employee;
+import fileservice.IOReader;
 import fileservice.IOWriter;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EmployeeConsole {
@@ -40,7 +45,7 @@ public class EmployeeConsole {
                     addEmployee();
                     break;
                 case 2:
-                    showEmployee();
+                    showEmployee(IOReader.fileRead("data.txt"));
                     break;
                 case 3:
                     removeEmployee();
@@ -49,8 +54,7 @@ public class EmployeeConsole {
                     editEmployee();
                     break;
                 case 5:
-                    IOWriter ioWriter = new IOWriter();
-                    ioWriter.fileWrite("data.txt");
+                    IOWriter.fileWrite("data.txt");
                     break;
                 default:
                     throw new AssertionError();
@@ -89,12 +93,12 @@ public class EmployeeConsole {
     }
 
 
-    private void showEmployee() {
+    private void showEmployee(ArrayList<Employee> employees) {
         System.out.println("-------Employees List-------");
         System.out.println("ID      |    NAME   |     SALARY    ");
-        for (int i = 0; i < this.em.count(); i++) {
-            Employee e = this.em.getEmployee(i);
-            System.out.println(e.getId() + "\t\t" + e.getName() + "\t\t" + e.getSalary());
+        for (int i = 0; i < employees.size(); i++) {
+//            Employee e = this.em.getEmployee(i);
+            System.out.println(employees.get(i).getId() + "\t\t" + employees.get(i).getName() + "\t\t" + employees.get(i).getSalary());
         }
     }
 
@@ -129,13 +133,36 @@ public class EmployeeConsole {
     }
 
     private void addEmployee() {
-        System.out.println("Enter Employees ID: ");
-        int id = readInt(0, Integer.MAX_VALUE);
-        System.out.println("Enter Employees Name: ");
-        String name = sc.nextLine();
-        System.out.println("Enter Employees Salary: ");
-        float salary = readFloat(0, Float.MAX_VALUE);
-        Employee e = new Employee(id, name, salary);
-        this.em.addEmployee(e);
+        String path = "data.txt";
+        FileWriter fileWriter = null;
+        File file = new File(path);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            fileWriter = new FileWriter(file, true);
+            System.out.println("Enter Employees ID: ");
+            String id = sc.nextLine();
+            System.out.println("Enter Employees Name: ");
+            String name = sc.nextLine();
+            System.out.println("Enter Employees Salary: ");
+            String salary = sc.nextLine();
+            fileWriter.append(id);
+            fileWriter.append( ",");
+            fileWriter.append(name);
+            fileWriter.append( ",");
+            fileWriter.append(salary);
+            fileWriter.append("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

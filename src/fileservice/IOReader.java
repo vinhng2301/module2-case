@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class IOReader {
-    private static ArrayList<Employee> fileRead(String path){
+    public static ArrayList<Employee> fileRead(String path){
         File file = new File(path);
         ArrayList<Employee> arrayList = new ArrayList<>();
         try {
